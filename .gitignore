@@ -1,9 +1,12 @@
 # ===== IDE =====
 .vscode/
+
 !.vscode/settings.json
 !.vscode/extensions.json
+
 *.class
 *.log
 *.swp
 *~
+
 .DS_Store

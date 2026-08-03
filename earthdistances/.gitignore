@@ -1,0 +1,35 @@
+# ===== MVN =====
+target/
+pom.xml.versionsBackup
+dependency-reduced-pom.xml
+buildNumber.properties
+.mvn/timing.properties
+
+# ===== Java =====
+*.jar
+*.war
+*.ear
+*.iml
+*.ipr
+*.iws
+.idea/
+*.classpath
+.project
+.settings/
+bin/
+*.orig
+*~
+
+# ===== OS Specific =====
+*.tmp
+*.bak
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# ===== Cache and logs =====
+*.log
+*.cache
+/.mvn/
+/.m2/repository/
