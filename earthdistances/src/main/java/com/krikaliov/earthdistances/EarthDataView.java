@@ -9,19 +9,9 @@ public class EarthDataView {
 
   @Override
   public String toString() {
-    String text = """
-        ----------------------------
-        --| earth distances v0.1 |--
-        ----------------------------
+    String radiusInMeterStr = Double.toString(EarthData.RADIUS);
+    String radiusInMilesStr = Double.toString(this.dataRef.radiusInMiles());
 
-        This version only support the 14 billions years BC Earth when it was a single point.
-        So there are all the available distances:
-        """ + this.dataRef + """
-
-        
-        Today Earth should be added in a newer version :D
-        Thank you for using my software! © krikaliov
-        """;
-    return text;
+    return "Earth's radius : " + radiusInMeterStr + " km (" + radiusInMilesStr + " miles)";
   }
 }

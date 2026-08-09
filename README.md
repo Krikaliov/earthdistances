@@ -14,14 +14,32 @@ Once a JRE is installed, you can download the latest release of the ``earth-dist
 
 ### Usage
 
-When you launch ``earth-distances``, you must see the entire Earth, our beautiful planet, fitting in the outter window app that should include a bottom bar displaying some useful data like the zoom level of the view. You can zoom in by scrolling up and you can also zoom out by scrolling down your mousepad.
+When you launch ``earth-distances`` from a terminal, you should see a prompt that allow you to enter commands. The prompt displays the current state of the 2-pins stack after each command execution ahead like this:
 
-You must be able to rotate the Earth by dragging it. The bottom bar reacts to rotations and gives you also the polar coordinates where you are looking at front of the camera.
+ - `[() , ()]<>` when the stack is empty
+ - `[(44.602 -124.054) , ()]<>` when the stack only contains 1 pin (*here at position 44.602 -124.054*)
+ - `[(48.865 2.336) , (44.602 -124.054) , ()]<14041.788 km>` when the stack is full showing the distance between both pins.
 
-Right-click at two different places of the Earth area and the bottom bar also displays the straight-line distance between those points. When right-clicking on the Earth area should spawn a yellow pin on it to display where you just right-clicked. Third time right-clicking deletes the first pin set on the Earth area and so on, thus the length shown in the bottom bar (in kilometers and miles) is the straight-line distance between the last two points pinned on the Earth area.
+### Commands
 
-You can reset the view and delete all yellow pins in a row by pressing key [R].
+> ?
 
-You can also open the credits' panel by pressing key [A].
+List all available commands.
+
+> help <cmd>
+
+Display how to use for the given command `cmd`. Use **.** to list all available commands.
+
+> quit
+
+Quit the program.
+
+> pin <theta> <phi> <color>
+
+Create a new pin on the Earth at latitude `theta` and longitude `phi` with a `color` among green, red, blue, yellow and pink (this has not yet any effect because `earth-distances` is still a command-line tool).
+
+### Disclaimer
+
+This is a beta version of `earth-distances`. You may encounter several bugs or technical issues while using this software. You can report any issue on the Github repository of this project by providing system info, screenshots and detailed steps to reproduce the bug you encounter.
 
 ## Thank you !

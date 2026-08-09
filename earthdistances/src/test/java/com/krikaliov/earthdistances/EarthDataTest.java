@@ -5,10 +5,10 @@ import org.junit.Test;
 
 public class EarthDataTest {
   @Test
-  public void testToString() {
+  public void testMilesConversion() {
     final EarthData dataTest = new EarthData();
-    final String dataTestStr = dataTest.toString();
+    final double radiusInMiles = dataTest.radiusInMiles();
 
-    assertEquals(dataTestStr, "0.0 km");
+    assertEquals(3960.345, radiusInMiles, 0.002);
   }
 }

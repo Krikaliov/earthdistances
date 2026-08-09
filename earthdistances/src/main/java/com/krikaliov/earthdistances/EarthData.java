@@ -2,23 +2,11 @@ package com.krikaliov.earthdistances;
 
 public class EarthData {
 
-  private final double calculatedDistance;
-  private final int unitDistance;
+  public static final double RADIUS = 6371;
 
-  public EarthData() {
-    this.calculatedDistance = 0.0;
-    this.unitDistance = 0;
+  public EarthData() {}
+
+  public double radiusInMiles() {
+    return RADIUS / 1.6087;
   }
-
-  @Override
-  public String toString() {
-    String unitStr;
-    switch (this.unitDistance) {
-      case 0:
-      default:
-        unitStr = " km";
-    }
-    return String.valueOf(this.calculatedDistance) + unitStr;
-  }
-
 }

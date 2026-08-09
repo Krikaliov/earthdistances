@@ -10,12 +10,9 @@ public class EarthDataViewTest {
     final String dataViewTestStr = dataViewTest.toString();
 
     assertTrue(
-      dataViewTestStr.contains("---------------") &&
-      dataViewTestStr.contains("earth distances") &&
-      dataViewTestStr.contains("---------------") &&
-      dataViewTestStr.contains("0.0 km") &&
-      dataViewTestStr.contains("Thank you") &&
-      dataViewTestStr.contains("krikaliov")
+      dataViewTestStr.contains("Earth's radius") &&
+      dataViewTestStr.contains("6371.008 km") &&
+      dataViewTestStr.contains("3960.345 miles")
     );
   }
 }
