@@ -27,7 +27,7 @@ public class Command {
       if (arg instanceof ArgumentRequired) {
         msg += " <" + arg.getArgName() + ">";
       } else if (arg instanceof ArgumentOptional) {
-        msg += " [" + arg.getArgName() + "]";
+        msg += " [--" + arg.getArgName() + "]";
       }
     }
     return msg;
@@ -63,12 +63,15 @@ public class Command {
 
       if (arg instanceof ArgumentOptional argumentOptional) {
         int pos = 0;
+        arg.parse("");
         while (pos < inputArgs.length) {
           if (argumentOptional.matches(inputArgs[pos])) {
             arg.parse(inputArgs[pos]);
             String[] newInputArgs = new String[inputArgs.length - 1];
             System.arraycopy(inputArgs, 0, newInputArgs, 0, pos);
-            System.arraycopy(inputArgs, pos + 1, newInputArgs, pos, inputArgs.length - 1);
+            if (pos + 1 < inputArgs.length) {
+              System.arraycopy(inputArgs, pos + 1, newInputArgs, pos, inputArgs.length - 1);
+            }
             inputArgs = null;
             inputArgs = newInputArgs;
           } else {
