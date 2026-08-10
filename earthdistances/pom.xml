@@ -6,7 +6,7 @@
 
     <groupId>com.krikaliov.earthdistances</groupId>
     <artifactId>earthdistances</artifactId>
-    <version>0.2</version>
+    <version>dev</version>
 
     <dependencies>
         <dependency>

@@ -46,7 +46,7 @@ public class App {
   }
 
   @SuppressWarnings("rawtypes")
-  public final CommandFunction quitFn = (Argument[] _) -> {
+  public final CommandFunction quitCmdFn = (Argument[] _) -> {
     System.out.println("Thank you for using my software! © krikaliov");
     this.alive = false;
   };
