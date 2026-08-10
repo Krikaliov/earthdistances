@@ -45,8 +45,16 @@ public class App {
     }
   }
 
+  public boolean isAlive() {
+    return this.alive;
+  }
+
+  public PinDataViewer pinViewer() {
+    return this.pinDataViewer;
+  }
+
   @SuppressWarnings("rawtypes")
-  public final CommandFunction quitFn = (Argument[] _) -> {
+  public final CommandFunction quitCmdFn = (Argument[] _) -> {
     System.out.println("Thank you for using my software! © krikaliov");
     this.alive = false;
   };

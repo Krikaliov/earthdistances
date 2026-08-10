@@ -10,7 +10,7 @@ public class Controller {
 
   public Controller(App app) {
     this.reader = new BufferedReader(new InputStreamReader(System.in));
-    this.cmdManager = new CommandManager(app);
+    this.cmdManager = new CommandManager(app, System.out);
   }
 
   public void waitForCmdLine() throws IOException {
