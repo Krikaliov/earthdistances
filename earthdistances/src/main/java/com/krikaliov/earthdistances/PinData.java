@@ -42,6 +42,17 @@ public class PinData {
     return this.phi;
   }
 
+  public String getColor() {
+    return this.color;
+  }
+
+  public boolean equals(PinData other) {
+    return
+      this.color.equals(other.color) &&
+      this.theta == other.theta &&
+      this.phi == this.phi;
+  }
+
   public double[] getCartesian() {
     double[] set = new double[3];
     set[0] = this.x;

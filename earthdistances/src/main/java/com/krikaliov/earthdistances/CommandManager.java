@@ -1,5 +1,6 @@
 package com.krikaliov.earthdistances;
 
+import java.io.PrintStream;
 import java.util.HashMap;
 
 public class CommandManager {
@@ -8,21 +9,24 @@ public class CommandManager {
   // > quit
   private final HashMap<String, Command> commands = new HashMap<>();
 
+  private final App app;
+  private final PrintStream output;
+
   // ------------------
   // HELP ('?') SECTION
   // ------------------
   protected void helpFn(String cmd) {
     if (".".equals(cmd)) {
-      System.out.println("List of available commands:");
+      this.output.println("List of available commands:");
       for (final String c : this.commands.keySet().toArray(new String[this.commands.size()])) {
-        System.out.println(" - " + c);
+        this.output.println(" - " + c);
       }
-      System.out.println("Type 'help <cmd>' to get info details about any command.");
+      this.output.println("Type 'help <cmd>' to get info details about any command.");
     } else {
       final String helpMsg = (this.commands.get(cmd) == null)
         ? cmd + " is not recognized as a command line!"
         : this.commands.get(cmd).getHelp();
-      System.out.println(helpMsg);
+      this.output.println(helpMsg);
     }
   }
   @SuppressWarnings("rawtypes")
@@ -36,7 +40,10 @@ public class CommandManager {
   // BUILDING CMDS
   // -------------
   @SuppressWarnings("rawtypes")
-  public CommandManager(App app) {
+  public CommandManager(App app, PrintStream output) {
+    this.app = app;
+    this.output = output;
+
     // HELP
     this.commands.put("help", new Command("help")
       .addArg(new ArgumentStringSet("cmd", helpArgValues))
@@ -50,7 +57,7 @@ public class CommandManager {
     );
     // QUIT
     this.commands.put("quit", new Command("quit")
-      .setTrigger(app.quitFn)
+      .setTrigger(this.app.quitCmdFn)
     );
     // PIN
     this.commands.put("pin", new Command("pin")
@@ -76,9 +83,9 @@ public class CommandManager {
       final Command cmd = this.commands.get(cmdName);
       cmd.trigger(inputWithoutName);
     } catch (BadArgumentException | MissingArgumentException e) {
-      System.out.println(e.getMessage());
+      this.output.println(e.getMessage());
     } catch (NullPointerException e) {
-      System.out.println(cmdName + " is not recognized as a command!");
+      this.output.println(cmdName + " is not recognized as a command!");
     }
   }
 }
