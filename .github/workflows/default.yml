@@ -16,11 +16,13 @@ jobs:
           java-version: '25'
           distribution: 'temurin'
       - name: Build and Test with Maven
+        working-directory: earthdistances
         run: mvn --batch-mode --update-snapshots verify
       - name: Moving package
+        working-directory: earthdistances
         run: mkdir staging && cp target/*.jar staging
       - uses: actions/upload-artifact@v4
         with:
           name: App
-          path: staging
+          path: earthdistances/staging
   
