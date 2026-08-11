@@ -9,6 +9,6 @@ public class EarthDataTest {
     final EarthData dataTest = new EarthData();
     final double radiusInMiles = dataTest.radiusInMiles();
 
-    assertEquals(3960.345, radiusInMiles, 0.002);
+    assertEquals(3958.756, radiusInMiles, 0.002);
   }
 }

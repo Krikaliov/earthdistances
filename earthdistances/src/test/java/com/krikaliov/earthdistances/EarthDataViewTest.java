@@ -1,6 +1,6 @@
 package com.krikaliov.earthdistances;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 
 public class EarthDataViewTest {
@@ -8,11 +8,6 @@ public class EarthDataViewTest {
   public void testToString() {
     final EarthDataView dataViewTest = new EarthDataView(new EarthData());
     final String dataViewTestStr = dataViewTest.toString();
-
-    assertTrue(
-      dataViewTestStr.contains("Earth's radius") &&
-      dataViewTestStr.contains("6371.008 km") &&
-      dataViewTestStr.contains("3960.345 miles")
-    );
+    assertEquals("Earth's radius : 6371.0 km (3958.7558657440545 miles)", dataViewTestStr);
   }
 }

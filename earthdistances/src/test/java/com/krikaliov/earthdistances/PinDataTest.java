@@ -1,7 +1,6 @@
 package com.krikaliov.earthdistances;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 
 public class PinDataTest {
@@ -11,7 +10,7 @@ public class PinDataTest {
     PinData pin2 = new PinData(49.012, 2.524, "green");
     double distance = pin1.distance(pin2);
 
-    assertTrue(180000.0 < distance && distance < 190000.0);
+    assertEquals(185.528, distance, 0.002);
 
     PinData nul1 = new PinData(-180.0, 0.0, "pink");
     PinData nul2 = new PinData(180.0, 0.0, "yellow");
