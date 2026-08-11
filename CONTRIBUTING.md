@@ -36,5 +36,3 @@ Then you can create a new pull request to branch `dev` (`main` **ONLY** when `de
 ### Thank you !
 
 Thank you for submitting your work !
-
-Unless you shitted your pants, your name must appear in 
