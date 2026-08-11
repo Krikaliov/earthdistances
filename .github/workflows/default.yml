@@ -21,7 +21,7 @@ jobs:
       - name: Moving package
         working-directory: earthdistances
         run: mkdir staging && cp target/*.jar staging
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v5
         with:
           name: App
           path: earthdistances/staging
