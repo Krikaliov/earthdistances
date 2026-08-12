@@ -34,7 +34,6 @@ public class CommandManager {
     final String cmd = (String) args[0].getValue();
     this.helpFn(cmd);
   };
-  protected final String[] helpArgValues = { ".", "?", "help", "quit", "pin" };
 
   // -------------
   // BUILDING CMDS
@@ -45,10 +44,7 @@ public class CommandManager {
     this.output = output;
 
     // HELP
-    this.commands.put("help", new Command("help")
-      .addArg(new ArgumentStringSet("cmd", helpArgValues))
-      .setTrigger(this.helpCmdFn)
-    );
+    this.commands.put("help", new Command("help").setTrigger(this.helpCmdFn));
     // ?
     this.commands.put("?", new Command("?")
       .setTrigger((Argument[] _) -> {
@@ -56,9 +52,7 @@ public class CommandManager {
       })
     );
     // QUIT
-    this.commands.put("quit", new Command("quit")
-      .setTrigger(this.app.quitCmdFn)
-    );
+    this.commands.put("quit", new Command("quit").setTrigger(this.app.quitCmdFn));
     // PIN
     this.commands.put("pin", new Command("pin")
       .addArg(new ArgumentDouble("theta"))
@@ -71,6 +65,16 @@ public class CommandManager {
         PinDataManager.getInstance().push(new PinData(theta, phi, color));
       })
     );
+    // CLEAR
+    this.commands.put("clear", new Command("clear")
+      .setTrigger((Argument[] _) -> {
+        PinDataManager.getInstance().clear();
+      })
+    );
+    // HELP again (to add args)
+    final String[] helpArgValues = this.commands.keySet().toArray(new String[this.commands.size() + 1]);
+    helpArgValues[this.commands.size()] = ".";
+    this.commands.get("help").addArg(new ArgumentStringSet("cmd", helpArgValues));
   }
 
   // ---------------------
