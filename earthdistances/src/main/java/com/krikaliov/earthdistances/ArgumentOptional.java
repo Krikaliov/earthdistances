@@ -18,7 +18,11 @@ public abstract class ArgumentOptional<T> {
     if (this.value == null) {
       return this.defaultValue;
     } else {
-      return this.value;
+      try {
+        return this.value;
+      } finally {
+        this.value = null;
+      }
     }
   }
 

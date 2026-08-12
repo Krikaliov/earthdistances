@@ -63,7 +63,6 @@ public class Command {
 
       if (arg instanceof ArgumentOptional argumentOptional) {
         int pos = 0;
-        arg.parse("");
         while (pos < inputArgs.length) {
           if (argumentOptional.matches(inputArgs[pos])) {
             arg.parse(inputArgs[pos]);

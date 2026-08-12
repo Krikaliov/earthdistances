@@ -62,7 +62,7 @@ public class CommandManager {
         final double phi = (double) args[2].getValue();
         final String color = (String) args[3].getValue();
         pins.push(new PinData(theta, phi, color));
-        if (lower) {
+        if (lower && pins.lower() != null) {
           pins.push(pins.lower());
         }
       })
@@ -87,11 +87,13 @@ public class CommandManager {
     try {
       final String inputWithoutName = buf.substring(cmdName.length()).trim();
       final Command cmd = this.commands.get(cmdName);
-      cmd.trigger(inputWithoutName);
+      if (cmd == null) {
+        this.output.println(cmdName + " is not recognized as a command!");
+      } else {
+        cmd.trigger(inputWithoutName);
+      }
     } catch (BadArgumentException | MissingArgumentException e) {
       this.output.println(e.getMessage());
-    } catch (NullPointerException e) {
-      this.output.println(cmdName + " is not recognized as a command!");
     }
   }
 }
