@@ -22,10 +22,16 @@ public class CommandManagerTest {
   private final PrintStream stream;
   private final CommandManager cmdManager;
 
+  private final PinDataManager pins;
+  private final PinDataViewer pinViewer;
+
   public CommandManagerTest() throws FileNotFoundException, UnsupportedEncodingException {
     this.stream = new PrintStream(this.output, true, this.utf8);
     this.app = new App(854, 480);
     this.cmdManager = new CommandManager(this.app, this.stream);
+
+    this.pins = PinDataManager.getInstance();
+    this.pinViewer = this.app.pinViewer();
   }
 
   @Test
@@ -91,7 +97,7 @@ public class CommandManagerTest {
   public void testHelpPinCmd() throws UnsupportedEncodingException {
     this.cmdManager.scan("help pin");
     final String msg = this.output.toString(this.utf8);
-    assertTrue(msg.endsWith("Usage: pin <theta> <phi> <color>" + ln));
+    assertTrue(msg.endsWith("Usage: pin [--lower] <theta> <phi> <color>" + ln));
   }
 
   @Test
@@ -128,50 +134,44 @@ public class CommandManagerTest {
 
   @Test
   public void testPinCmd() {
-    final PinDataManager pins = PinDataManager.getInstance();
-    final PinDataViewer pinViewer = this.app.pinViewer();
-
     // Pushing 1 pin
     this.cmdManager.scan("pin 50 3 green");
-    assertTrue(pins.amount() >= 1);
-    assertNotNull(pins.upper());
+    assertTrue(this.pins.amount() >= 1);
+    assertNotNull(this.pins.upper());
 
-    final PinData pin1 = pins.upper();
+    final PinData pin1 = this.pins.upper();
     assertEquals(50.0, pin1.getTheta(), 0.001);
     assertEquals(3.0, pin1.getPhi(), 0.001);
     assertEquals("green", pin1.getColor());
 
-    assertTrue(pinViewer.toString().startsWith("[(50.0 3.0) , ("));
+    assertTrue(this.pinViewer.toString().startsWith("[(50.0 3.0) , ("));
 
-    // Pushing 2 pins
-    this.cmdManager.scan("pin 44 2 yellow");
-    assertEquals(2, pins.amount());
-    assertNotNull(pins.upper());
-    assertNotNull(pins.lower());
+    // Pushing 2 pins with lower option
+    this.cmdManager.scan("pin --lower 44 2 yellow");
+    assertEquals(2, this.pins.amount());
+    assertNotNull(this.pins.upper());
+    assertNotNull(this.pins.lower());
 
-    final PinData pin2 = pins.upper();
+    final PinData pin2 = this.pins.lower();
     assertEquals(44.0, pin2.getTheta(), 0.001);
     assertEquals(2.0, pin2.getPhi(), 0.001);
     assertEquals("yellow", pin2.getColor());
 
-    assertEquals(pinViewer.toString(),
-      "[(44.0 2.0) , (50.0 3.0)]<" + Double.toString(pins.distance()) + " km>"
+    assertEquals(this.pinViewer.toString(),
+      "[(50.0 3.0) , (44.0 2.0)]<" + Double.toString(this.pins.distance()) + " km>"
     );
 
-    assertTrue(pin1.equals(pins.lower()));
+    assertTrue(pin1.equals(this.pins.upper()));
   }
 
   @Test
   public void testClearCmd() {
-    final PinDataManager pins = PinDataManager.getInstance();
-    final PinDataViewer pinViewer = this.app.pinViewer();
-
     this.cmdManager.scan("clear");
 
-    assertEquals(0, pins.amount());
-    assertNull(pins.lower());
-    assertNull(pins.upper());
+    assertEquals(0, this.pins.amount());
+    assertNull(this.pins.lower());
+    assertNull(this.pins.upper());
 
-    assertEquals("[() , ()]<>", pinViewer.toString());
+    assertEquals("[() , ()]<>", this.pinViewer.toString());
   }
 }

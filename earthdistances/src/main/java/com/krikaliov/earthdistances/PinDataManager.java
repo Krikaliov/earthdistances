@@ -46,13 +46,9 @@ public class PinDataManager {
   }
 
   public void push(PinData pin) {
-    if (this.amount() < 1) {
-      this.pins[0] = new PinData(pin);
-    } else {
-      PinData tmp = new PinData(this.pins[0]);
-      this.pins[0] = new PinData(pin);
-      this.pins[1] = tmp;
-    }
+    final PinData tmp = (this.pins[0] == null) ? null : new PinData(this.pins[0]);
+    this.pins[0] = (pin == null) ? null : new PinData(pin);
+    this.pins[1] = tmp;
   }
 
   public void setError(String msg) {

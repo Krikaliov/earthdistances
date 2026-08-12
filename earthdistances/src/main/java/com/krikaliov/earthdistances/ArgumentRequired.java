@@ -17,7 +17,11 @@ public abstract class ArgumentRequired<T> {
     if (this.value == null) {
       throw new MissingArgumentException(this.argName);
     } else {
-      return this.value;
+      try {
+        return this.value;
+      } finally {
+        this.value = null;
+      }
     }
   }
 }

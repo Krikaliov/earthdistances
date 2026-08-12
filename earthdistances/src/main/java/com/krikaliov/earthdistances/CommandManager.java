@@ -5,7 +5,7 @@ import java.util.HashMap;
 
 public class CommandManager {
   // > help
-  // > pin --keep 50.92460 3.09080 green
+  // > pin --lower 50.92460 3.09080 green
   // > quit
   private final HashMap<String, Command> commands = new HashMap<>();
 
@@ -46,23 +46,25 @@ public class CommandManager {
     // HELP
     this.commands.put("help", new Command("help").setTrigger(this.helpCmdFn));
     // ?
-    this.commands.put("?", new Command("?")
-      .setTrigger((Argument[] _) -> {
-        this.helpFn(".");
-      })
-    );
+    this.commands.put("?", new Command("?").setTrigger((Argument[] _) -> { this.helpFn("."); }));
     // QUIT
     this.commands.put("quit", new Command("quit").setTrigger(this.app.quitCmdFn));
     // PIN
     this.commands.put("pin", new Command("pin")
+      .addArg(new ArgumentTag("lower"))
       .addArg(new ArgumentDouble("theta"))
       .addArg(new ArgumentDouble("phi"))
       .addArg(new ArgumentStringSet("color", PinDataViewer.colors))
       .setTrigger((Argument[] args) -> {
-        final double theta = (double) args[0].getValue();
-        final double phi = (double) args[1].getValue();
-        final String color = (String) args[2].getValue();
-        PinDataManager.getInstance().push(new PinData(theta, phi, color));
+        final PinDataManager pins = PinDataManager.getInstance();
+        final boolean lower = (Boolean) args[0].getValue();
+        final double theta = (double) args[1].getValue();
+        final double phi = (double) args[2].getValue();
+        final String color = (String) args[3].getValue();
+        pins.push(new PinData(theta, phi, color));
+        if (lower && pins.lower() != null) {
+          pins.push(pins.lower());
+        }
       })
     );
     // CLEAR
@@ -85,11 +87,13 @@ public class CommandManager {
     try {
       final String inputWithoutName = buf.substring(cmdName.length()).trim();
       final Command cmd = this.commands.get(cmdName);
-      cmd.trigger(inputWithoutName);
+      if (cmd == null) {
+        this.output.println(cmdName + " is not recognized as a command!");
+      } else {
+        cmd.trigger(inputWithoutName);
+      }
     } catch (BadArgumentException | MissingArgumentException e) {
       this.output.println(e.getMessage());
-    } catch (NullPointerException e) {
-      this.output.println(cmdName + " is not recognized as a command!");
     }
   }
 }
