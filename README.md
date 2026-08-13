@@ -18,25 +18,25 @@ When you launch ``earthdistances`` from a terminal, you should see a prompt that
  - `[(44.602 -124.054) , ()]<>` when the stack only contains 1 pin (*here at position 44.602 -124.054*)
  - `[(48.865 2.336) , (44.602 -124.054) , ()]<14041.788 km>` when the stack is full showing the distance between both pins.
 
-## Commands
+### Commands
 
-### ?
+ - `?`
 
 List all available commands.
 
-### help <cmd>
+ - `help <cmd>`
 
 Display how to use for the given command `cmd`. Use **.** to list all available commands.
 
-### quit
+ - `quit`
 
 Quit the program.
 
-### clear
+ - `clear`
 
 Empty the stack.
 
-### pin [--lower] <theta> <phi> <color>
+ - `pin [--lower] <theta> <phi> <color>`
 
 Create a new pin on the Earth at latitude `theta` and longitude `phi` with a `color` among green, red, blue, yellow and pink (this has not yet any effect because `earthdistances` is still a command-line tool).
 
