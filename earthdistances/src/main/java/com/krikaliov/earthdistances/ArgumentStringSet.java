@@ -4,8 +4,8 @@ public class ArgumentStringSet extends ArgumentRequired<String> implements Argum
   private final String[] values;
 
   public ArgumentStringSet(String argName, String[] values) {
-    this.values = values;
     super(argName);
+    this.values = values;
   }
 
   @Override

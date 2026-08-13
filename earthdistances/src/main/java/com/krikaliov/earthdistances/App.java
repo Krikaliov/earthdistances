@@ -24,9 +24,10 @@ public class App {
     this.earthDataView = new EarthDataView(new EarthData());
     this.pinDataViewer = new PinDataViewer();
 
-    String msg = Main.APPNAME + " " + Main.VERSION + " " + Integer.toString(this.width) + "x" + Integer.toString(this.height);
-    int n = msg.length();
-    this.label = "-".repeat(n+8) + "\n--| " + msg + " |--\n" + "-".repeat(n+8);
+    final String msg = Main.APPNAME + " " + Main.VERSION;
+    String unions = "";
+    for (int i = 0 ; i < msg.length() + 8 ; i++) unions = unions.concat("-");
+    this.label = unions + "\n--| " + msg + " |--\n" + unions;
 
     this.mainController = new Controller(this);
   }
@@ -45,6 +46,13 @@ public class App {
     }
   }
 
+  public int[] getScreenSize() {
+    final int[] size = new int[2];
+    size[0] = this.width;
+    size[1] = this.height;
+    return size;
+  }
+
   public boolean isAlive() {
     return this.alive;
   }
@@ -54,7 +62,7 @@ public class App {
   }
 
   @SuppressWarnings("rawtypes")
-  public final CommandFunction quitCmdFn = (Argument[] _) -> {
+  public final CommandFunction quitCmdFn = (Argument[] x) -> {
     System.out.println("Thank you for using my software! © krikaliov");
     this.alive = false;
   };

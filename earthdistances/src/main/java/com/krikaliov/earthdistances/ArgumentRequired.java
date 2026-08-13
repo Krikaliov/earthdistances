@@ -1,7 +1,7 @@
 package com.krikaliov.earthdistances;
 
 public abstract class ArgumentRequired<T> {
-  private final String argName;
+  protected final String argName;
 
   protected T value;
 
