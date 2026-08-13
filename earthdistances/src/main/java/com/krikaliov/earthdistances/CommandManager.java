@@ -46,7 +46,7 @@ public class CommandManager {
     // HELP
     this.commands.put("help", new Command("help").setTrigger(this.helpCmdFn));
     // ?
-    this.commands.put("?", new Command("?").setTrigger((Argument[] _) -> { this.helpFn("."); }));
+    this.commands.put("?", new Command("?").setTrigger((Argument[] x) -> { this.helpFn("."); }));
     // QUIT
     this.commands.put("quit", new Command("quit").setTrigger(this.app.quitCmdFn));
     // PIN
@@ -69,7 +69,7 @@ public class CommandManager {
     );
     // CLEAR
     this.commands.put("clear", new Command("clear")
-      .setTrigger((Argument[] _) -> {
+      .setTrigger((Argument[] x) -> {
         PinDataManager.getInstance().clear();
       })
     );

@@ -61,17 +61,17 @@ public class Command {
         break;
       }
 
-      if (arg instanceof ArgumentOptional argumentOptional) {
+      if (arg instanceof ArgumentOptional) {
+        final ArgumentOptional argOptional = (ArgumentOptional) arg;
         int pos = 0;
         while (pos < inputArgs.length) {
-          if (argumentOptional.matches(inputArgs[pos])) {
+          if (argOptional.matches(inputArgs[pos])) {
             arg.parse(inputArgs[pos]);
             String[] newInputArgs = new String[inputArgs.length - 1];
             System.arraycopy(inputArgs, 0, newInputArgs, 0, pos);
             if (pos + 1 < inputArgs.length) {
               System.arraycopy(inputArgs, pos + 1, newInputArgs, pos, inputArgs.length - 1);
             }
-            inputArgs = null;
             inputArgs = newInputArgs;
           } else {
             pos++;
@@ -83,7 +83,6 @@ public class Command {
         arg.parse(inputArgs[0]);
         String[] newInputArgs = new String[inputArgs.length - 1];
         System.arraycopy(inputArgs, 1, newInputArgs, 0, inputArgs.length - 1);
-        inputArgs = null;
         inputArgs = newInputArgs;
       }
     }
