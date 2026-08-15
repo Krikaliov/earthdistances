@@ -9,7 +9,7 @@ public class CommandManager {
   // > quit
   private final HashMap<String, Command> commands = new HashMap<>();
 
-  private final App app;
+  private final CommandFunction quitAppFn;
   private final PrintStream output;
 
   // ------------------
@@ -39,8 +39,8 @@ public class CommandManager {
   // BUILDING CMDS
   // -------------
   @SuppressWarnings("rawtypes")
-  public CommandManager(App app, PrintStream output) {
-    this.app = app;
+  public CommandManager(PrintStream output, CommandFunction quitAppFn) {
+    this.quitAppFn = quitAppFn;
     this.output = output;
 
     // HELP
@@ -48,7 +48,7 @@ public class CommandManager {
     // ?
     this.commands.put("?", new Command("?").setTrigger((Argument[] x) -> { this.helpFn("."); }));
     // QUIT
-    this.commands.put("quit", new Command("quit").setTrigger(this.app.quitCmdFn));
+    this.commands.put("quit", new Command("quit").setTrigger(this.quitAppFn));
     // PIN
     this.commands.put("pin", new Command("pin")
       .addArg(new ArgumentTag("lower"))

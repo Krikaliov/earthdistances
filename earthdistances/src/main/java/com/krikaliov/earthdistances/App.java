@@ -31,24 +31,22 @@ public class App {
   private long window = 0;
 
   private final EarthDataView earthDataView;
-  private final PinDataViewer pinDataViewer;
 
-  private final Controller mainController;
+  private final Logger logger = Logger.getInstance();
 
   public App(int width, int height) {
     this.earthDataView = new EarthDataView(new EarthData());
-    this.pinDataViewer = new PinDataViewer();
 
-    this.mainController = new Controller(this);
+    // Setup Console Manager
+    this.logger.set(this.quitCmdFn, System.in, System.out);
 
     // Setup an error callback. The default implementation
     // will print the error message in System.err.
     GLFWErrorCallback.createPrint(System.err).set();
 
     // Initialize GLFW. Most GLFW functions will not work before doing this.
-    if (!glfwInit()) {
+    if (!glfwInit())
       throw new IllegalStateException("Unable to initialize GLFW");
-    }
 
     // Configure GLFW
     glfwDefaultWindowHints(); // optional, the current window hints are already the default
@@ -61,10 +59,13 @@ public class App {
       throw new RuntimeException("Failed to create the GLFW window");
 
     // Setup a key callback. It will be called every time a key is pressed, repeated or released.
-    glfwSetKeyCallback(this.window, (window, key, scancode, action, mods) -> {
+    glfwSetKeyCallback(this.window, (win, key, code, action, mods) -> {
       if (key == GLFW_KEY_ESCAPE && action == GLFW_RELEASE)
-        glfwSetWindowShouldClose(window, true); // We will detect this in the rendering loop
+        this.quitCmdFn.exec(new Argument[0]); // We will detect this in the rendering loop
     });
+
+    // Setup a window close callback to make the app closes when the user clicks on the red cross.
+    glfwSetWindowCloseCallback(this.window, (win) -> { this.quitCmdFn.exec(new Argument[0]); });
 
     // Get the thread stack and push a new frame
     try (MemoryStack stack = stackPush()) {
@@ -75,13 +76,10 @@ public class App {
       glfwGetWindowSize(this.window, pWidth, pHeight);
 
       // Get the resolution of the primary monitor
-      final GLFWVidMode vidmode = glfwGetVideoMode(glfwGetPrimaryMonitor());
+      final GLFWVidMode screen = glfwGetVideoMode(glfwGetPrimaryMonitor());
 
       // Center the window
-      glfwSetWindowPos(this.window,
-        (vidmode.width() - pWidth.get(0)) / 2,
-        (vidmode.height() - pHeight.get(0)) / 2
-      );
+      glfwSetWindowPos(this.window, (screen.width() - pWidth.get(0)) / 2, (screen.height() - pHeight.get(0)) / 2);
     } // the stack frame is popped automatically
 
     // Make the OpenGL context current
@@ -102,22 +100,21 @@ public class App {
     GL.createCapabilities();
 
     // Set the clear color
-    glClearColor(1.0f, 0.0f, 0.0f, 0.0f);
+    glClearColor(0.0f, 0.0f, 1.0f, 0.0f);
 
-    // Run the rendering loop until the user has attempted to close
-    // the window or has pressed the ESCAPE key.
+    this.logger.log(this.label);
+    this.logger.log("");
 
-    System.out.println(this.label);
-    System.out.println();
+    this.logger.log(this.earthDataView.toString());
+    this.logger.log("");
 
-    System.out.println(this.earthDataView);
-    System.out.println();
+    this.logger.openConsole();
 
+    // Run the rendering loop until the user has either :
+    // - closed the window
+    // - pressed ESCAPE
+    // - requested 'quit' command from the logger opened console
     while (!glfwWindowShouldClose(this.window)) {
-      System.out.println(this.pinDataViewer);
-
-      this.mainController.waitForCmdLine();
-
       glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // clear the framebuffer
 
       glfwSwapBuffers(this.window); // swap the color buffers
@@ -135,21 +132,13 @@ public class App {
     return size;
   }
 
-  public final long windowHandler() {
-    return this.window;
-  }
-
-  public boolean isAlive() {
-    return !glfwWindowShouldClose(this.window);
-  }
-
-  public PinDataViewer pinViewer() {
-    return this.pinDataViewer;
-  }
+  public boolean isAlive() { return !glfwWindowShouldClose(this.window); }
 
   @SuppressWarnings("rawtypes")
   public final CommandFunction quitCmdFn = (Argument[] x) -> {
-    System.out.println("Thank you for using my software! © krikaliov");
     glfwSetWindowShouldClose(this.window, true); // We will detect this in the rendering loop
+    this.logger.log("Thank you for using my software! © krikaliov");
+    this.logger.log("Closing ...");
+    this.logger.closeConsole();
   };
 }

@@ -45,7 +45,7 @@ public class PinDataManager {
     return ((this.pins[0] == null) ? 0 : 1) + ((this.pins[1] == null) ? 0 : 1);
   }
 
-  public void push(PinData pin) {
+  public synchronized void push(PinData pin) {
     final PinData tmp = (this.pins[0] == null) ? null : new PinData(this.pins[0]);
     this.pins[0] = (pin == null) ? null : new PinData(pin);
     this.pins[1] = tmp;

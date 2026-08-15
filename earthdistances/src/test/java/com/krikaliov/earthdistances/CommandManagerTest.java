@@ -7,7 +7,6 @@ import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
@@ -18,7 +17,10 @@ public class CommandManagerTest {
   private final String utf8 = StandardCharsets.UTF_8.name();
   private final String ln = System.lineSeparator();
   
-  private final App app;
+  private boolean quit = false;
+  @SuppressWarnings("rawtypes")
+  protected final CommandFunction mockAppQuitFn = (Argument[] x) -> { this.quit = true; };
+
   private final PrintStream stream;
   private final CommandManager cmdManager;
 
@@ -27,17 +29,17 @@ public class CommandManagerTest {
 
   public CommandManagerTest() throws FileNotFoundException, UnsupportedEncodingException {
     this.stream = new PrintStream(this.output, true, this.utf8);
-    this.app = new App(854, 480);
-    this.cmdManager = new CommandManager(this.app, this.stream);
+
+    this.cmdManager = new CommandManager(this.stream, this.mockAppQuitFn);
 
     this.pins = PinDataManager.getInstance();
-    this.pinViewer = this.app.pinViewer();
+    this.pinViewer = new PinDataViewer();
   }
 
   @Test
   public void testQuitCmd() {
     this.cmdManager.scan("quit");
-    assertFalse(this.app.isAlive());
+    assertTrue(quit);
   }
 
   @Test
