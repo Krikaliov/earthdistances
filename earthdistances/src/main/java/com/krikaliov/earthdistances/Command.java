@@ -70,7 +70,7 @@ public class Command {
             String[] newInputArgs = new String[inputArgs.length - 1];
             System.arraycopy(inputArgs, 0, newInputArgs, 0, pos);
             if (pos + 1 < inputArgs.length) {
-              System.arraycopy(inputArgs, pos + 1, newInputArgs, pos, inputArgs.length - 1);
+              System.arraycopy(inputArgs, pos + 1, newInputArgs, pos, inputArgs.length - 1 - pos);
             }
             inputArgs = newInputArgs;
           } else {
