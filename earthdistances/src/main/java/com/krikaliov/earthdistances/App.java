@@ -8,6 +8,7 @@ import org.lwjgl.system.*;
 
 import java.nio.*;
 
+import static org.lwjgl.glfw.Callbacks.*;
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.system.MemoryStack.*;
@@ -123,6 +124,14 @@ public class App {
       // invoked during this call.
       glfwPollEvents();
     }
+
+		// Free the window callbacks and destroy the window
+		glfwFreeCallbacks(window);
+		glfwDestroyWindow(window);
+
+		// Terminate GLFW and free the error callback
+		glfwTerminate();
+		glfwSetErrorCallback(null).free();
   }
 
   public int[] getScreenSize() {
