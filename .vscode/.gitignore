@@ -1,0 +1,7 @@
+# Ignore everything...
+*
+#... but not these files
+!.gitignore
+!launch.json
+!settings.json
+!extensions.json
